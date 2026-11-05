@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>Real Talk Creator Studio</title>
+<style>
+:root{--bg:#101114;--panel:#191b21;--panel2:#22252d;--text:#f4f4f5;--muted:#a5a7b0;--gold:#f3bd4b;--line:#30333c;--green:#8bd6a5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:22px 18px 16px;background:linear-gradient(135deg,#24201a,#111216 70%);border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:800}.title{font-size:25px;font-weight:850;margin:5px 0}.sub{color:var(--muted);font-size:13px}
+main{max-width:850px;margin:auto;padding:16px}.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 13px;border-radius:999px;white-space:nowrap;font-weight:650}
+.tab.active{background:var(--gold);color:#171717;border-color:var(--gold)}
+.panel{display:none}.panel.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 13px}
+h2{font-size:18px;margin:0 0 4px}p.hint{color:var(--muted);font-size:13px;margin:0 0 13px}
+label{display:block;font-size:13px;color:#d8d9de;margin:12px 0 5px;font-weight:650}
+input,textarea,select{width:100%;background:#101216;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text);font:inherit;outline:none}
+textarea{min-height:105px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
+button.action{background:var(--gold);border:0;color:#191919;border-radius:10px;padding:11px 14px;font-weight:800;margin-top:10px}
+button.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:700;margin:8px 6px 0 0}
+.stat{background:var(--panel2);padding:12px;border-radius:12px;flex:1;min-width:100px}.stat b{font-size:20px;display:block}.stat span{font-size:12px;color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}.output{white-space:pre-wrap;background:#101216;border:1px dashed #454956;border-radius:10px;padding:12px;margin-top:10px;min-height:45px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+</style>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#101114">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+</head>
+<body>
+<header><div class="brand">REAL TALK WITH ABBASI</div><div class="title">Creator Studio</div><div class="sub">Your mobile workspace for Shorts planning, scripts and tracking.</div></header>
+<main>
+<nav class="tabs">
+<button class="tab active" data-tab="dashboard">Overview</button>
+<button class="tab" data-tab="script">Script Lab</button>
+<button class="tab" data-tab="seo">SEO Builder</button>
+<button class="tab" data-tab="tracker">Shorts Tracker</button>
+</nav>
+<section id="dashboard" class="panel active">
+<div class="card"><h2>Welcome back</h2><p class="hint">A simple workspace for your faceless Urdu/Roman Urdu Shorts.</p>
+<div class="row">
+<div class="stat"><b id="draftCount">0</b><span>Saved drafts</span></div>
+<div class="stat"><b id="videoCount">0</b><span>Tracked Shorts</span></div>
+<div class="stat"><b>9:16</b><span>Video format</span></div>
+</div></div>
+<div class="card"><h2>Quick workflow</h2><p class="hint">A practical order for each Short.</p>
+<ol><li>Write a strong first-line hook.</li><li>Keep the quote tight: usually 3–4 lines.</li><li>Record your voice and add captions.</li><li>Use vertical footage and readable text.</li><li>Track stayed-to-watch and average percentage viewed.</li></ol></div>
+<div class="card"><h2>Creator note</h2><p class="hint">This first version works locally in your browser. It does not connect to YouTube or generate AI content by itself. Your saved drafts and tracker entries stay in this browser on this device.</p></div>
+</section>
+<section id="script" class="panel">
+<div class="card"><h2>Script Lab</h2><p class="hint">Draft short Roman Urdu or Urdu quotes. Aim for a clear hook and a memorable final line.</p>
+<label>Topic / emotion</label><input id="topic" placeholder="Self-respect, qadar, attitude, life lesson...">
+<label>Opening hook</label><input id="hook" placeholder="Example: Ek baat hamesha yaad rakhna...">
+<label>Short script</label><textarea id="scriptText" placeholder="Apni 3–4 line quote yahan likho..."></textarea>
+<div class="row"><div class="stat"><b id="wordCount">0</b><span>Words</span></div><div class="stat"><b id="charCount">0</b><span>Characters</span></div></div>
+<button class="action" onclick="saveDraft()">Save draft</button><button class="secondary" onclick="copyText('scriptText')">Copy script</button>
+<div id="draftMessage" class="small"></div></div>
+<div class="card"><h2>Hook checklist</h2><p class="hint">Before recording, check that your first line creates curiosity, speaks directly to the viewer, and is understandable instantly.</p>
+<ul><li>Hook appears from 0.0 seconds.</li><li>No long introduction.</li><li>One central thought only.</li><li>Ending feels quotable or loops naturally.</li></ul></div>
+</section>
+<section id="seo" class="panel">
+<div class="card"><h2>SEO Builder</h2><p class="hint">Build a metadata draft. Verify keywords against YouTube search suggestions; these are not live search-volume metrics.</p>
+<label>Video topic / main keyword</label><input id="keyword" placeholder="Example: self respect quotes in Urdu">
+<label>Audience language</label><select id="language"><option>Roman Urdu</option><option>Urdu</option><option>Hindi</option><option>English</option></select>
+<label>Title idea</label><input id="seoTitle" placeholder="Write your strongest, natural title">
+<label>Description</label><textarea id="description" placeholder="1–2 relevant sentences about the Short..."></textarea>
+<label>Relevant hashtags (up to 5)</label><input id="hashtags" placeholder="#shorts #urduquotes #selfrespect">
+<button class="action" onclick="buildSEO()">Preview SEO pack</button><button class="secondary" onclick="copyOutput()">Copy pack</button>
+<div id="seoOutput" class="output">Your SEO pack will appear here.</div></div>
+<div class="card"><h2>SEO reminder</h2><p class="hint">Do not stuff unrelated tags. A clear title, relevant description and viewer response matter more than chasing a made-up SEO score.</p></div>
+</section>
+<section id="tracker" class="panel">
+<div class="card"><h2>Shorts Tracker</h2><p class="hint">Enter results from YouTube Studio after publishing.</p>
+<label>Short title</label><input id="trackTitle" placeholder="Video title">
+<div class="row"><div><label>Views</label><input id="views" type="number" min="0" placeholder="0"></div><div><label>Stayed to watch (%)</label><input id="stayed" type="number" min="0" max="100" step=".1" placeholder="0"></div><div><label>Average viewed (%)</label><input id="avg" type="number" min="0" step=".1" placeholder="0"></div></div>
+<button class="action" onclick="addTrack()">Save result</button>
+<div id="trackList"></div></div>
+</section>
+</main>
+<footer>REAL TALK CREATOR STUDIO · VERSION 1.0 · LOCAL BROWSER WORKSPACE</footer>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')}));
+function get(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
+function put(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function updateCounts(){$('draftCount').textContent=get('rtcs_drafts').length;$('videoCount').textContent=get('rtcs_tracks').length}
+function updateWords(){let s=$('scriptText').value;$('wordCount').textContent=s.trim()?s.trim().split(/\s+/).length:0;$('charCount').textContent=s.length}
+$('scriptText').addEventListener('input',updateWords);
+function saveDraft(){let drafts=get('rtcs_drafts');drafts.unshift({topic:$('topic').value,hook:$('hook').value,script:$('scriptText').value,date:new Date().toLocaleDateString()});put('rtcs_drafts',drafts);$('draftMessage').textContent='Draft saved on this device.';updateCounts()}
+function copyText(id){let v=$(id).value;navigator.clipboard?.writeText(v).then(()=>alert('Copied')).catch(()=>alert('Copy not available in this browser.'))}
+function buildSEO(){let tags=$('hashtags').value.split(/\s+/).filter(Boolean).slice(0,5);let pack='TITLE\\n'+$('seoTitle').value+'\\n\\nDESCRIPTION\\n'+$('description').value+'\\n\\nKEYWORD\\n'+$('keyword').value+'\\n\\nLANGUAGE\\n'+$('language').value+'\\n\\nHASHTAGS\\n'+tags.join(' ');$('seoOutput').textContent=pack}
+function copyOutput(){navigator.clipboard?.writeText($('seoOutput').textContent).then(()=>alert('SEO pack copied')).catch(()=>alert('Copy not available.'))}
+function addTrack(){let title=$('trackTitle').value.trim();if(!title){alert('Please enter the Short title.');return}let arr=get('rtcs_tracks');arr.unshift({title,views:$('views').value||0,stayed:$('stayed').value||0,avg:$('avg').value||0,date:new Date().toLocaleDateString()});put('rtcs_tracks',arr);['trackTitle','views','stayed','avg'].forEach(id=>$(id).value='');renderTracks();updateCounts()}
+function renderTracks(){let arr=get('rtcs_tracks');$('trackList').innerHTML=arr.length?arr.map(x=>`<div class="output"><b>${escapeHtml(x.title)}</b><br><span class="small">${escapeHtml(x.date)} · ${escapeHtml(x.views)} views · ${escapeHtml(x.stayed)}% stayed · ${escapeHtml(x.avg)}% avg viewed</span></div>`).join(''):'<p class="small">No Shorts tracked yet.</p>'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+updateWords();updateCounts();renderTracks();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(err => console.error("Service worker:", err));
+  });
+}
+</script>
+
+</body></html>
