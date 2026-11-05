@@ -1,114 +1,562 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101114">
 <title>Real Talk Creator Studio</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
 <style>
-:root{--bg:#101114;--panel:#191b21;--panel2:#22252d;--text:#f4f4f5;--muted:#a5a7b0;--gold:#f3bd4b;--line:#30333c;--green:#8bd6a5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
-header{padding:22px 18px 16px;background:linear-gradient(135deg,#24201a,#111216 70%);border-bottom:1px solid var(--line)}
-.brand{font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:800}.title{font-size:25px;font-weight:850;margin:5px 0}.sub{color:var(--muted);font-size:13px}
-main{max-width:850px;margin:auto;padding:16px}.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}
-.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 13px;border-radius:999px;white-space:nowrap;font-weight:650}
+:root{--bg:#101114;--panel:#191b21;--panel2:#252832;--text:#f4f4f5;--muted:#a5a7b0;--gold:#f3bd4b;--line:#343741}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,sans-serif}
+header{padding:22px 18px;background:linear-gradient(135deg,#302719,#111216);border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:800}
+.title{font-size:25px;font-weight:850;margin:5px 0}
+.sub{font-size:13px;color:var(--muted)}
+main{max-width:900px;margin:auto;padding:15px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:5px 0 15px}
+.tab{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:10px 14px;border-radius:30px;white-space:nowrap;font-weight:700}
 .tab.active{background:var(--gold);color:#171717;border-color:var(--gold)}
-.panel{display:none}.panel.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 13px}
-h2{font-size:18px;margin:0 0 4px}p.hint{color:var(--muted);font-size:13px;margin:0 0 13px}
-label{display:block;font-size:13px;color:#d8d9de;margin:12px 0 5px;font-weight:650}
-input,textarea,select{width:100%;background:#101216;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text);font:inherit;outline:none}
-textarea{min-height:105px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:13px}
+h2{font-size:18px;margin:0 0 5px}
+.hint,.small{font-size:13px;color:var(--muted)}
+label{display:block;margin:13px 0 5px;font-size:13px;font-weight:700}
+input,textarea,select{width:100%;padding:12px;background:#101216;border:1px solid var(--line);border-radius:10px;color:white;font:inherit}
+textarea{min-height:100px;resize:vertical}
+button{cursor:pointer}
+.action{background:var(--gold);border:0;color:#171717;padding:11px 15px;border-radius:10px;font-weight:800;margin:10px 6px 0 0}
+.secondary{background:var(--panel2);border:1px solid var(--line);color:white;padding:10px 13px;border-radius:10px;font-weight:700;margin:8px 5px 0 0}
 .row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
-button.action{background:var(--gold);border:0;color:#191919;border-radius:10px;padding:11px 14px;font-weight:800;margin-top:10px}
-button.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:700;margin:8px 6px 0 0}
-.stat{background:var(--panel2);padding:12px;border-radius:12px;flex:1;min-width:100px}.stat b{font-size:20px;display:block}.stat span{font-size:12px;color:var(--muted)}
-.small{font-size:12px;color:var(--muted)}.output{white-space:pre-wrap;background:#101216;border:1px dashed #454956;border-radius:10px;padding:12px;margin-top:10px;min-height:45px}
+.stat{background:var(--panel2);padding:12px;border-radius:12px;flex:1;min-width:100px}
+.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+.output{white-space:pre-wrap;background:#101216;border:1px dashed #454956;border-radius:10px;padding:12px;margin-top:10px;min-height:40px}
+.preview-wrap{max-width:340px;margin:15px auto;background:#080808;border-radius:14px;overflow:hidden}
+canvas{display:block;width:100%;height:auto;background:#080808}
+video{display:none}
+.notice{background:#29251c;border:1px solid #66512a;padding:11px;border-radius:10px;font-size:12px;color:#f5d99c;margin-top:12px}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 </style>
-
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/png" href="icon-192.png">
-<meta name="theme-color" content="#101114">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="./icon-192.png">
-
 </head>
 <body>
-<header><div class="brand">REAL TALK WITH ABBASI</div><div class="title">Creator Studio</div><div class="sub">Your mobile workspace for Shorts planning, scripts and tracking.</div></header>
+
+<header>
+<div class="brand">REAL TALK WITH ABBASI</div>
+<div class="title">Creator Studio</div>
+<div class="sub">Your Shorts creation workspace</div>
+</header>
+
 <main>
 <nav class="tabs">
 <button class="tab active" data-tab="dashboard">Overview</button>
+<button class="tab" data-tab="maker">Shorts Maker</button>
 <button class="tab" data-tab="script">Script Lab</button>
 <button class="tab" data-tab="seo">SEO Builder</button>
 <button class="tab" data-tab="tracker">Shorts Tracker</button>
 </nav>
+
 <section id="dashboard" class="panel active">
-<div class="card"><h2>Welcome back</h2><p class="hint">A simple workspace for your faceless Urdu/Roman Urdu Shorts.</p>
+<div class="card">
+<h2>Welcome to Creator Studio</h2>
+<p class="hint">Create faceless Urdu and Roman Urdu YouTube Shorts.</p>
 <div class="row">
 <div class="stat"><b id="draftCount">0</b><span>Saved drafts</span></div>
 <div class="stat"><b id="videoCount">0</b><span>Tracked Shorts</span></div>
-<div class="stat"><b>9:16</b><span>Video format</span></div>
-</div></div>
-<div class="card"><h2>Quick workflow</h2><p class="hint">A practical order for each Short.</p>
-<ol><li>Write a strong first-line hook.</li><li>Keep the quote tight: usually 3–4 lines.</li><li>Record your voice and add captions.</li><li>Use vertical footage and readable text.</li><li>Track stayed-to-watch and average percentage viewed.</li></ol></div>
-<div class="card"><h2>Creator note</h2><p class="hint">This first version works locally in your browser. It does not connect to YouTube or generate AI content by itself. Your saved drafts and tracker entries stay in this browser on this device.</p></div>
+<div class="stat"><b>9:16</b><span>Vertical format</span></div>
+</div>
+<button class="action" onclick="switchTab('maker')">Open Shorts Maker</button>
+</div>
+<div class="card">
+<h2>How to create a Short</h2>
+<ol>
+<li>Select your video's mood.</li>
+<li>Get a script idea or write your own quote.</li>
+<li>Find matching vertical footage on Pexels.</li>
+<li>Upload your video and background music.</li>
+<li>Preview your text and export your Short.</li>
+</ol>
+</div>
+<div class="card">
+<h2>Important</h2>
+<p class="hint">This app edits footage you upload. Pexels search opens its website; it does not automatically download footage. AI script generation and live SEO research are not connected in this version.</p>
+</div>
 </section>
+
+<section id="maker" class="panel">
+<div class="card">
+<h2>Shorts Maker</h2>
+<p class="hint">Create a vertical video with background footage, music and text.</p>
+
+<label>Choose video mood</label>
+<select id="mood" onchange="moodChanged()">
+<option value="attitude">Attitude / Self Respect</option>
+<option value="sad">Sad / Emotional</option>
+<option value="romantic">Romantic</option>
+<option value="motivation">Motivation</option>
+<option value="life">Life Lessons</option>
+</select>
+
+<label>Video duration</label>
+<select id="duration">
+<option value="8">8 seconds</option>
+<option value="15">15 seconds</option>
+<option value="20">20 seconds</option>
+<option value="30">30 seconds</option>
+<option value="40">40 seconds</option>
+<option value="60">60 seconds</option>
+</select>
+
+<label>Your video text</label>
+<textarea id="videoText" placeholder="Apna quote yahan likho..."></textarea>
+
+<button class="secondary" onclick="getIdea()">Get script idea</button>
+<button class="secondary" onclick="copyMakerText()">Copy text</button>
+
+<label>Find matching background footage</label>
+<button class="action" onclick="searchPexels()">Search Pexels videos</button>
+<p class="small">Pexels will open in a new tab. Download a suitable vertical video and upload it below.</p>
+
+<label>Upload background video</label>
+<input type="file" id="videoFile" accept="video/*">
+
+<label>Upload background music</label>
+<input type="file" id="musicFile" accept="audio/*">
+
+<label>Text colour</label>
+<select id="textColor">
+<option value="#ffffff">White</option>
+<option value="#f3bd4b">Gold</option>
+<option value="#ffdf35">Yellow</option>
+<option value="#ff5555">Red</option>
+</select>
+
+<label>Text position</label>
+<select id="textPosition">
+<option value="center">Center</option>
+<option value="top">Upper area</option>
+<option value="bottom">Lower area</option>
+</select>
+
+<div class="preview-wrap">
+<canvas id="preview" width="540" height="960"></canvas>
+</div>
+
+<button class="action" onclick="playPreview()">Preview video</button>
+<button class="secondary" onclick="stopPreview()">Stop</button>
+<button class="action" id="exportBtn" onclick="exportVideo()">Export Short</button>
+<div id="makerStatus" class="small">Upload a video to begin.</div>
+
+<div class="notice">
+Export format: WebM, depending on your Android Chrome support. For MP4, you may need to convert the exported file using a video editor.
+</div>
+</div>
+</section>
+
 <section id="script" class="panel">
-<div class="card"><h2>Script Lab</h2><p class="hint">Draft short Roman Urdu or Urdu quotes. Aim for a clear hook and a memorable final line.</p>
-<label>Topic / emotion</label><input id="topic" placeholder="Self-respect, qadar, attitude, life lesson...">
-<label>Opening hook</label><input id="hook" placeholder="Example: Ek baat hamesha yaad rakhna...">
-<label>Short script</label><textarea id="scriptText" placeholder="Apni 3–4 line quote yahan likho..."></textarea>
-<div class="row"><div class="stat"><b id="wordCount">0</b><span>Words</span></div><div class="stat"><b id="charCount">0</b><span>Characters</span></div></div>
-<button class="action" onclick="saveDraft()">Save draft</button><button class="secondary" onclick="copyText('scriptText')">Copy script</button>
-<div id="draftMessage" class="small"></div></div>
-<div class="card"><h2>Hook checklist</h2><p class="hint">Before recording, check that your first line creates curiosity, speaks directly to the viewer, and is understandable instantly.</p>
-<ul><li>Hook appears from 0.0 seconds.</li><li>No long introduction.</li><li>One central thought only.</li><li>Ending feels quotable or loops naturally.</li></ul></div>
+<div class="card">
+<h2>Script Lab</h2>
+<p class="hint">Write and save your short-form quotes.</p>
+<label>Topic / emotion</label>
+<input id="topic" placeholder="Self-respect, qadar, attitude...">
+<label>Opening hook</label>
+<input id="hook" placeholder="Ek baat hamesha yaad rakhna...">
+<label>Short script</label>
+<textarea id="scriptText" placeholder="Apni 3–4 line quote yahan likho..."></textarea>
+<div class="row">
+<div class="stat"><b id="wordCount">0</b><span>Words</span></div>
+<div class="stat"><b id="charCount">0</b><span>Characters</span></div>
+</div>
+<button class="action" onclick="saveDraft()">Save draft</button>
+<button class="secondary" onclick="copyText('scriptText')">Copy script</button>
+<button class="secondary" onclick="sendToMaker()">Send to Shorts Maker</button>
+<div id="draftMessage" class="small"></div>
+</div>
+<div class="card">
+<h2>Hook checklist</h2>
+<ul>
+<li>First line should grab attention instantly.</li>
+<li>Keep the message focused.</li>
+<li>Use 3–4 memorable lines.</li>
+<li>Make the ending powerful.</li>
+</ul>
+</div>
 </section>
+
 <section id="seo" class="panel">
-<div class="card"><h2>SEO Builder</h2><p class="hint">Build a metadata draft. Verify keywords against YouTube search suggestions; these are not live search-volume metrics.</p>
-<label>Video topic / main keyword</label><input id="keyword" placeholder="Example: self respect quotes in Urdu">
-<label>Audience language</label><select id="language"><option>Roman Urdu</option><option>Urdu</option><option>Hindi</option><option>English</option></select>
-<label>Title idea</label><input id="seoTitle" placeholder="Write your strongest, natural title">
-<label>Description</label><textarea id="description" placeholder="1–2 relevant sentences about the Short..."></textarea>
-<label>Relevant hashtags (up to 5)</label><input id="hashtags" placeholder="#shorts #urduquotes #selfrespect">
-<button class="action" onclick="buildSEO()">Preview SEO pack</button><button class="secondary" onclick="copyOutput()">Copy pack</button>
-<div id="seoOutput" class="output">Your SEO pack will appear here.</div></div>
-<div class="card"><h2>SEO reminder</h2><p class="hint">Do not stuff unrelated tags. A clear title, relevant description and viewer response matter more than chasing a made-up SEO score.</p></div>
+<div class="card">
+<h2>SEO Builder</h2>
+<p class="hint">Prepare a title, description and relevant hashtags.</p>
+<label>Main keyword</label>
+<input id="keyword" placeholder="self respect quotes in Urdu">
+<label>Audience language</label>
+<select id="language">
+<option>Roman Urdu</option><option>Urdu</option><option>Hindi</option><option>English</option>
+</select>
+<label>Video title</label>
+<input id="seoTitle" placeholder="Write your strongest title">
+<label>Description</label>
+<textarea id="description" placeholder="Write a short relevant description..."></textarea>
+<label>Hashtags (up to 5)</label>
+<input id="hashtags" placeholder="#shorts #urduquotes #selfrespect">
+<button class="action" onclick="buildSEO()">Build SEO pack</button>
+<button class="secondary" onclick="copyOutput()">Copy pack</button>
+<div id="seoOutput" class="output">Your SEO pack will appear here.</div>
+</div>
+<div class="card">
+<p class="hint">This tool does not provide live search volume or verified keyword rankings. Check YouTube search suggestions before publishing.</p>
+</div>
 </section>
+
 <section id="tracker" class="panel">
-<div class="card"><h2>Shorts Tracker</h2><p class="hint">Enter results from YouTube Studio after publishing.</p>
-<label>Short title</label><input id="trackTitle" placeholder="Video title">
-<div class="row"><div><label>Views</label><input id="views" type="number" min="0" placeholder="0"></div><div><label>Stayed to watch (%)</label><input id="stayed" type="number" min="0" max="100" step=".1" placeholder="0"></div><div><label>Average viewed (%)</label><input id="avg" type="number" min="0" step=".1" placeholder="0"></div></div>
+<div class="card">
+<h2>Shorts Tracker</h2>
+<label>Short title</label>
+<input id="trackTitle" placeholder="Video title">
+<div class="row">
+<div><label>Views</label><input id="views" type="number" min="0"></div>
+<div><label>Stayed to watch (%)</label><input id="stayed" type="number" min="0" max="100" step=".1"></div>
+<div><label>Average viewed (%)</label><input id="avg" type="number" min="0" step=".1"></div>
+</div>
 <button class="action" onclick="addTrack()">Save result</button>
-<div id="trackList"></div></div>
+<div id="trackList"></div>
+</div>
 </section>
 </main>
-<footer>REAL TALK CREATOR STUDIO · VERSION 1.0 · LOCAL BROWSER WORKSPACE</footer>
+
+<footer>REAL TALK CREATOR STUDIO · SHORTS WORKSPACE</footer>
+
+<video id="sourceVideo" playsinline loop></video>
+<audio id="sourceAudio" loop></audio>
+
 <script>
 const $=id=>document.getElementById(id);
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')}));
-function get(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
-function put(key,val){localStorage.setItem(key,JSON.stringify(val))}
-function updateCounts(){$('draftCount').textContent=get('rtcs_drafts').length;$('videoCount').textContent=get('rtcs_tracks').length}
-function updateWords(){let s=$('scriptText').value;$('wordCount').textContent=s.trim()?s.trim().split(/\s+/).length:0;$('charCount').textContent=s.length}
-$('scriptText').addEventListener('input',updateWords);
-function saveDraft(){let drafts=get('rtcs_drafts');drafts.unshift({topic:$('topic').value,hook:$('hook').value,script:$('scriptText').value,date:new Date().toLocaleDateString()});put('rtcs_drafts',drafts);$('draftMessage').textContent='Draft saved on this device.';updateCounts()}
-function copyText(id){let v=$(id).value;navigator.clipboard?.writeText(v).then(()=>alert('Copied')).catch(()=>alert('Copy not available in this browser.'))}
-function buildSEO(){let tags=$('hashtags').value.split(/\s+/).filter(Boolean).slice(0,5);let pack='TITLE\\n'+$('seoTitle').value+'\\n\\nDESCRIPTION\\n'+$('description').value+'\\n\\nKEYWORD\\n'+$('keyword').value+'\\n\\nLANGUAGE\\n'+$('language').value+'\\n\\nHASHTAGS\\n'+tags.join(' ');$('seoOutput').textContent=pack}
-function copyOutput(){navigator.clipboard?.writeText($('seoOutput').textContent).then(()=>alert('SEO pack copied')).catch(()=>alert('Copy not available.'))}
-function addTrack(){let title=$('trackTitle').value.trim();if(!title){alert('Please enter the Short title.');return}let arr=get('rtcs_tracks');arr.unshift({title,views:$('views').value||0,stayed:$('stayed').value||0,avg:$('avg').value||0,date:new Date().toLocaleDateString()});put('rtcs_tracks',arr);['trackTitle','views','stayed','avg'].forEach(id=>$(id).value='');renderTracks();updateCounts()}
-function renderTracks(){let arr=get('rtcs_tracks');$('trackList').innerHTML=arr.length?arr.map(x=>`<div class="output"><b>${escapeHtml(x.title)}</b><br><span class="small">${escapeHtml(x.date)} · ${escapeHtml(x.views)} views · ${escapeHtml(x.stayed)}% stayed · ${escapeHtml(x.avg)}% avg viewed</span></div>`).join(''):'<p class="small">No Shorts tracked yet.</p>'}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-updateWords();updateCounts();renderTracks();
-</script>
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(err => console.error("Service worker:", err));
-  });
+function switchTab(id){
+document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));
+document.querySelector('[data-tab="'+id+'"]').classList.add('active');
+$(id).classList.add('active');
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+function get(key){
+try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}
+}
+function put(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function updateCounts(){
+$('draftCount').textContent=get('rtcs_drafts').length;
+$('videoCount').textContent=get('rtcs_tracks').length;
+}
+
+const ideas={
+attitude:[
+"Log tumhari qadar tab karte hain, jab tum unki zaroorat banna band kar dete ho.\nApni izzat khud karo...\nHar kisi ke saamne jhukna zaroori nahi.",
+"Jahan tumhari qadar na ho...\nWahan rukna bhi mat.\nKuch jagah chhor dena hi\nApni izzat bachana hota hai."
+],
+sad:[
+"Kuch dard aise hote hain...\nJo kisi ko dikhaye nahi jaate.\nInsaan muskura toh deta hai,\nMagar andar se toot chuka hota hai.",
+"Sab ko khush rakhte rakhte...\nKhud ko hi bhool gaye.\nJin ke liye sab kuch kiya,\nAakhir mein wohi ajnabi ban gaye."
+],
+romantic:[
+"Mohabbat lafzon ki mohtaaj nahi hoti...\nKabhi ek khamosh nazar bhi\nWoh keh deti hai,\nJo hazaar baatein nahi keh paatin.",
+"Tum paas ho ya door...\nFarq sirf itna sa hai.\nDil aaj bhi tumhara hai,\nAur rahega."
+],
+motivation:[
+"Rukna mat...\nChahe raasta kitna bhi mushkil ho.\nManzil unhi ko milti hai,\nJo haar maan kar nahi baithte.",
+"Apni mehnat par yaqeen rakho...\nAaj jo tumhein nazarandaz karte hain,\nKal tumhari misaal denge."
+],
+life:[
+"Waqt sab kuch sikha deta hai...\nBas kuch sabaq ki qeemat\nInsaan ko apne sukoon se\nChukani parti hai.",
+"Har muskurata chehra khush nahi hota...\nAur har khamosh insaan kamzor nahi hota.\nKuch log bas apni jang\nKhud hi lar rahe hote hain."
+]
+};
+
+function moodChanged(){
+drawCanvas();
+}
+function getIdea(){
+let list=ideas[$('mood').value];
+$('videoText').value=list[Math.floor(Math.random()*list.length)];
+drawCanvas();
+}
+function searchPexels(){
+let queries={
+attitude:"dark cinematic city night lonely man attitude vertical",
+sad:"sad rainy window lonely cinematic vertical",
+romantic:"romantic couple sunset cinematic vertical",
+motivation:"motivational running sunrise cinematic vertical",
+life:"cinematic lonely road mountains nature vertical"
+};
+let q=queries[$('mood').value];
+window.open("https://www.pexels.com/search/videos/"+encodeURIComponent(q)+"/","_blank");
+}
+function copyMakerText(){
+navigator.clipboard.writeText($('videoText').value).then(()=>alert("Text copied")).catch(()=>alert("Copy not available"));
+}
+
+const canvas=$('preview');
+const ctx=canvas.getContext('2d');
+const vid=$('sourceVideo');
+const aud=$('sourceAudio');
+let animationId=null;
+let exporting=false;
+let exportStart=0;
+let exportStream=null;
+let mediaRecorder=null;
+let chunks=[];
+
+$('videoFile').addEventListener('change',e=>{
+let f=e.target.files[0];
+if(!f)return;
+vid.src=URL.createObjectURL(f);
+vid.load();
+vid.onloadeddata=()=>{
+drawCanvas();
+$('makerStatus').textContent="Video loaded. Add your text and music.";
+};
+});
+$('musicFile').addEventListener('change',e=>{
+let f=e.target.files[0];
+if(!f)return;
+aud.src=URL.createObjectURL(f);
+$('makerStatus').textContent="Music loaded.";
+});
+$('videoText').addEventListener('input',drawCanvas);
+$('textColor').addEventListener('change',drawCanvas);
+$('textPosition').addEventListener('change',drawCanvas);
+
+function drawCanvas(){
+let w=canvas.width,h=canvas.height;
+ctx.fillStyle="#090909";
+ctx.fillRect(0,0,w,h);
+
+if(vid.readyState>=2 && vid.videoWidth){
+let scale=Math.max(w/vid.videoWidth,h/vid.videoHeight);
+let sw=w/scale,sh=h/scale;
+let sx=(vid.videoWidth-sw)/2,sy=(vid.videoHeight-sh)/2;
+ctx.drawImage(vid,sx,sy,sw,sh,0,0,w,h);
+}else{
+let g=ctx.createLinearGradient(0,0,w,h);
+g.addColorStop(0,"#302719");
+g.addColorStop(1,"#08090c");
+ctx.fillStyle=g;
+ctx.fillRect(0,0,w,h);
+ctx.fillStyle="#f3bd4b";
+ctx.font="bold 34px Arial";
+ctx.textAlign="center";
+ctx.fillText("UPLOAD YOUR VIDEO",w/2,h/2);
+}
+
+let text=$('videoText').value.trim();
+if(!text)return;
+
+let lines=text.split("\n");
+let maxWidth=w-75;
+let fontSize=35;
+ctx.font="bold "+fontSize+"px Arial";
+let wrapped=[];
+lines.forEach(line=>{
+let words=line.split(" "),current="";
+words.forEach(word=>{
+let test=current?current+" "+word:word;
+if(ctx.measureText(test).width>maxWidth && current){
+wrapped.push(current);current=word;
+}else current=test;
+});
+if(current)wrapped.push(current);
+});
+
+let lineHeight=49;
+let total=wrapped.length*lineHeight;
+let y=h/2-total/2;
+if($('textPosition').value==="top")y=190;
+if($('textPosition').value==="bottom")y=h-total-180;
+
+ctx.textAlign="center";
+ctx.textBaseline="middle";
+ctx.font="bold "+fontSize+"px Arial";
+wrapped.forEach((line,i)=>{
+let yy=y+i*lineHeight;
+ctx.lineWidth=7;
+ctx.strokeStyle="rgba(0,0,0,.9)";
+ctx.strokeText(line,w/2,yy,maxWidth);
+ctx.fillStyle=$('textColor').value;
+ctx.fillText(line,w/2,yy,maxWidth);
+});
+}
+
+function renderLoop(){
+drawCanvas();
+animationId=requestAnimationFrame(renderLoop);
+}
+function playPreview(){
+if(!vid.src){alert("Pehle background video upload karo.");return;}
+vid.play().catch(()=>{});
+if(aud.src)aud.play().catch(()=>{});
+if(animationId)cancelAnimationFrame(animationId);
+renderLoop();
+$('makerStatus').textContent="Preview playing.";
+}
+function stopPreview(){
+vid.pause();aud.pause();
+if(animationId)cancelAnimationFrame(animationId);
+animationId=null;
+drawCanvas();
+$('makerStatus').textContent="Preview stopped.";
+}
+
+async function exportVideo(){
+if(!vid.src){alert("Pehle background video upload karo.");return;}
+if(!window.MediaRecorder || !canvas.captureStream){
+alert("Your browser does not support video export. Try the latest Chrome.");
+return;
+}
+if(exporting)return;
+
+let mime="video/webm;codecs=vp9,opus";
+if(!MediaRecorder.isTypeSupported(mime)){
+mime="video/webm;codecs=vp8,opus";
+}
+if(!MediaRecorder.isTypeSupported(mime)){
+mime="video/webm";
+}
+try{
+stopPreview();
+vid.currentTime=0;
+await vid.play();
+if(aud.src){
+aud.currentTime=0;
+await aud.play();
+}
+drawCanvas();
+
+let videoStream=canvas.captureStream(30);
+let tracks=[...videoStream.getVideoTracks()];
+if(aud.src && aud.captureStream){
+let audioStream=aud.captureStream();
+tracks.push(...audioStream.getAudioTracks());
+}
+exportStream=new MediaStream(tracks);
+chunks=[];
+mediaRecorder=new MediaRecorder(exportStream,{mimeType:mime});
+mediaRecorder.ondataavailable=e=>{
+if(e.data && e.data.size)chunks.push(e.data);
+};
+mediaRecorder.onstop=()=>{
+let blob=new Blob(chunks,{type:"video/webm"});
+let url=URL.createObjectURL(blob);
+let a=document.createElement("a");
+a.href=url;
+a.download="real-talk-short.webm";
+a.click();
+setTimeout(()=>URL.revokeObjectURL(url),60000);
+vid.pause();aud.pause();
+exporting=false;
+$('exportBtn').disabled=false;
+$('makerStatus').textContent="Export complete. Your WebM video has been saved.";
+};
+mediaRecorder.start();
+exporting=true;
+$('exportBtn').disabled=true;
+$('makerStatus').textContent="Exporting your Short... Please keep this page open.";
+
+let seconds=parseInt($('duration').value,10);
+let start=Date.now();
+function exportFrame(){
+if(!exporting)return;
+drawCanvas();
+if((Date.now()-start)/1000>=seconds){
+mediaRecorder.stop();
+return;
+}
+requestAnimationFrame(exportFrame);
+}
+exportFrame();
+}catch(err){
+exporting=false;
+$('exportBtn').disabled=false;
+$('makerStatus').textContent="Export failed: "+err.message;
+alert("Export error: "+err.message);
+}
+}
+
+function updateWords(){
+let s=$('scriptText').value;
+$('wordCount').textContent=s.trim()?s.trim().split(/\s+/).length:0;
+$('charCount').textContent=s.length;
+}
+$('scriptText').addEventListener('input',updateWords);
+
+function saveDraft(){
+let drafts=get('rtcs_drafts');
+drafts.unshift({
+topic:$('topic').value,
+hook:$('hook').value,
+script:$('scriptText').value,
+date:new Date().toLocaleDateString()
+});
+put('rtcs_drafts',drafts);
+$('draftMessage').textContent="Draft saved on this device.";
+updateCounts();
+}
+function copyText(id){
+navigator.clipboard.writeText($(id).value).then(()=>alert("Copied")).catch(()=>alert("Copy not available"));
+}
+function sendToMaker(){
+$('videoText').value=$('scriptText').value;
+switchTab('maker');
+drawCanvas();
+}
+
+function buildSEO(){
+let tags=$('hashtags').value.split(/\s+/).filter(Boolean).slice(0,5);
+let pack="TITLE\n"+$('seoTitle').value+
+"\n\nDESCRIPTION\n"+$('description').value+
+"\n\nKEYWORD\n"+$('keyword').value+
+"\n\nLANGUAGE\n"+$('language').value+
+"\n\nHASHTAGS\n"+tags.join(" ");
+$('seoOutput').textContent=pack;
+}
+function copyOutput(){
+navigator.clipboard.writeText($('seoOutput').textContent).then(()=>alert("SEO pack copied")).catch(()=>alert("Copy not available"));
+}
+
+function addTrack(){
+let title=$('trackTitle').value.trim();
+if(!title){alert("Please enter the Short title.");return;}
+let arr=get('rtcs_tracks');
+arr.unshift({
+title,
+views:$('views').value||0,
+stayed:$('stayed').value||0,
+avg:$('avg').value||0,
+date:new Date().toLocaleDateString()
+});
+put('rtcs_tracks',arr);
+['trackTitle','views','stayed','avg'].forEach(id=>$(id).value="");
+renderTracks();updateCounts();
+}
+function escapeHtml(s){
+return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function renderTracks(){
+let arr=get('rtcs_tracks');
+$('trackList').innerHTML=arr.length?
+arr.map(x=>`<div class="output"><b>${escapeHtml(x.title)}</b><br><span class="small">${escapeHtml(x.date)} · ${escapeHtml(x.views)} views · ${escapeHtml(x.stayed)}% stayed · ${escapeHtml(x.avg)}% avg viewed</span></div>`).join("")
+:'<p class="small">No Shorts tracked yet.</p>';
+}
+
+updateWords();
+updateCounts();
+renderTracks();
+drawCanvas();
+
+if("serviceWorker" in navigator){
+window.addEventListener("load",()=>{
+navigator.serviceWorker.register("./sw.js").catch(()=>{});
+});
 }
 </script>
-
-</body></html>
+</body>
+                           </html>
